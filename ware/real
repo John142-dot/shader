@@ -1,0 +1,117 @@
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
+local player = game.Players.LocalPlayer
+local camera = workspace.CurrentCamera
+local lighting = game:GetService("Lighting")
+
+local bloom = Instance.new("BloomEffect")
+bloom.Intensity = 0.1
+bloom.Threshold = 0
+bloom.Size = 100
+bloom.Enabled = false
+bloom.Parent = lighting
+
+local tropic = Instance.new("Sky")
+tropic.Name = "Tropic"
+tropic.SkyboxUp = "http://www.roblox.com/asset/?id=169210149"
+tropic.SkyboxLf = "http://www.roblox.com/asset/?id=169210133"
+tropic.SkyboxBk = "http://www.roblox.com/asset/?id=169210090"
+tropic.SkyboxFt = "http://www.roblox.com/asset/?id=169210121"
+tropic.StarCount = 100
+tropic.SkyboxDn = "http://www.roblox.com/asset/?id=169210108"
+tropic.SkyboxRt = "http://www.roblox.com/asset/?id=169210143"
+tropic.Parent = lighting
+
+local sky = Instance.new("Sky")
+sky.SkyboxUp = "http://www.roblox.com/asset/?id=196263782"
+sky.SkyboxLf = "http://www.roblox.com/asset/?id=196263721"
+sky.SkyboxBk = "http://www.roblox.com/asset/?id=196263721"
+sky.SkyboxFt = "http://www.roblox.com/asset/?id=196263721"
+sky.CelestialBodiesShown = false
+sky.SkyboxDn = "http://www.roblox.com/asset/?id=196263643"
+sky.SkyboxRt = "http://www.roblox.com/asset/?id=196263721"
+sky.Parent = lighting
+
+lighting.Brightness = 2.14
+lighting.ColorShift_Bottom = Color3.fromRGB(11, 0, 20)
+lighting.ColorShift_Top = Color3.fromRGB(240, 127, 14)
+lighting.OutdoorAmbient = Color3.fromRGB(34, 0, 49)
+lighting.ClockTime = 6.7
+lighting.FogColor = Color3.fromRGB(94, 76, 106)
+lighting.FogEnd = 1000
+lighting.FogStart = 0
+lighting.ExposureCompensation = 0.24
+lighting.ShadowSoftness = 0
+lighting.Ambient = Color3.fromRGB(59, 33, 27)
+
+local blur = Instance.new("BlurEffect")
+blur.Size = 2
+blur.Parent = lighting
+
+local inaritaisha = Instance.new("ColorCorrectionEffect")
+inaritaisha.Name = "Inari taisha"
+inaritaisha.Saturation = 0.05
+inaritaisha.TintColor = Color3.fromRGB(255, 224, 219)
+inaritaisha.Parent = lighting
+
+local normal = Instance.new("ColorCorrectionEffect")
+normal.Name = "Normal"
+normal.Enabled = false
+normal.Saturation = -0.2
+normal.TintColor = Color3.fromRGB(255, 232, 215)
+normal.Parent = lighting
+
+local sunRays = Instance.new("SunRaysEffect")
+sunRays.Intensity = 0.05
+sunRays.Parent = lighting
+
+local sunset = Instance.new("Sky")
+sunset.Name = "Sunset"
+sunset.SkyboxUp = "rbxassetid://323493360"
+sunset.SkyboxLf = "rbxassetid://323494252"
+sunset.SkyboxBk = "rbxassetid://323494035"
+sunset.SkyboxFt = "rbxassetid://323494130"
+sunset.SkyboxDn = "rbxassetid://323494368"
+sunset.SunAngularSize = 14
+sunset.SkyboxRt = "rbxassetid://323494067"
+sunset.Parent = lighting
+
+local takayama = Instance.new("ColorCorrectionEffect")
+takayama.Name = "Takayama"
+takayama.Enabled = false
+takayama.Saturation = -0.3
+takayama.Contrast = 0.1
+takayama.TintColor = Color3.fromRGB(235, 214, 204)
+takayama.Parent = lighting
+
+local L = game:GetService("Lighting")
+L.Brightness = 2.14
+L.ColorShift_Bottom = Color3.fromRGB(11, 0, 20)
+L.ColorShift_Top = Color3.fromRGB(240, 127, 14)
+L.OutdoorAmbient = Color3.fromRGB(34, 0, 49)
+L.ClockTime = 6.7
+L.FogColor = Color3.fromRGB(94, 76, 106)
+L.FogEnd = 1000
+L.FogStart = 0
+L.ExposureCompensation = 0.24
+L.ShadowSoftness = 0
+L.Ambient = Color3.fromRGB(59, 33, 27)
+
+local function isLookingAtSun()
+    local cameraCFrame = camera.CFrame
+    local cameraDirection = cameraCFrame.LookVector
+    local sunPosition = lighting:GetSunDirection()
+    local sunVector = Vector3.new(sunPosition.X, sunPosition.Y, sunPosition.Z)
+    return cameraDirection:Dot(sunVector) > 0.5
+end
+
+while true do
+    wait(0.1)
+    if isLookingAtSun() then
+        bloom.Enabled = true
+    else
+        bloom.Enabled = false
+    end
+end
