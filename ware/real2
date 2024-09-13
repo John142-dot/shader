@@ -1,0 +1,58 @@
+if not game:IsLoaded() then
+    game.Loaded:Wait()
+end
+
+local player = game.Players.LocalPlayer
+local camera = workspace.CurrentCamera
+local lighting = game:GetService("Lighting")
+
+lighting.Brightness = 3.93
+lighting.ColorShift_Top = Color3.fromRGB(118, 117, 101)
+lighting.ColorShift_Bottom = Color3.fromRGB(141, 141, 141)
+lighting.OutdoorAmbient = Color3.fromRGB(141, 141, 141)
+lighting.ClockTime = 8.0
+lighting.FogColor = Color3.fromRGB(216, 255, 250)
+lighting.FogStart = 0
+lighting.FogEnd = 1000
+lighting.ExposureCompensation = 0.34
+lighting.ShadowSoftness = 0.1
+
+local bloom = Instance.new("BloomEffect")
+bloom.Intensity = 1
+bloom.Size = 22
+bloom.Threshold = 0.8
+bloom.Enabled = false
+bloom.Parent = lighting
+
+local blur = Instance.new("BlurEffect")
+blur.Size = 2
+blur.Parent = lighting
+
+local colorCorrection = Instance.new("ColorCorrectionEffect")
+colorCorrection.Brightness = 0
+colorCorrection.Contrast = 0.2
+colorCorrection.Saturation = 0
+colorCorrection.TintColor = Color3.fromRGB(255, 252, 224)
+colorCorrection.Parent = lighting
+
+local sunRays = Instance.new("SunRaysEffect")
+sunRays.Intensity = 0.117
+sunRays.Spread = 1
+sunRays.Parent = lighting
+
+local function isLookingAtSun()
+    local cameraCFrame = camera.CFrame
+    local cameraDirection = cameraCFrame.LookVector
+    local sunPosition = lighting:GetSunDirection()
+    local sunVector = Vector3.new(sunPosition.X, sunPosition.Y, sunPosition.Z)
+    return cameraDirection:Dot(sunVector) > 0.5
+end
+
+while true do
+    wait(0.1)
+    if isLookingAtSun() then
+        bloom.Enabled = true
+    else
+        bloom.Enabled = false
+    end
+end
